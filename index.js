@@ -1,15 +1,15 @@
 import { Observable } from 'rxjs';
 
-const observer = {
-  next: (value) => console.log('next', value),
-  error: (err) => console.log('error', err),
-  complete: () => console.log('complete'),
-};
-
 const observable = new Observable((subscriber) => {
   subscriber.next('Hello');
   subscriber.next('World');
   subscriber.complete();
+  subscriber.next('Hello Again'); // <-< Will not appear as complete is already called
 });
 
-observable.subscribe(observer);
+// params are - next, error and complete
+observable.subscribe(
+  (value) => console.log('next', value),
+  (err) => console.log('error', err),
+  () => console.log('Complete!')
+);
