@@ -1,13 +1,16 @@
 import { Observable } from 'rxjs';
 
+const observer = {
+  next: (value) => console.log('next', value),
+  error: (err) => console.log('error', err),
+  complete: () => console.log('Complete!'),
+};
+
 const observable = new Observable((subscriber) => {
   let count = 0;
 
   setInterval(() => {
     subscriber.next(count);
-    if (count >= 5) {
-      subscriber.complete();
-    }
     count = count + 1;
   }, 1000);
 
@@ -16,12 +19,19 @@ const observable = new Observable((subscriber) => {
   };
 });
 
-// params are - next, error and complete
-
 console.log('before');
-observable.subscribe(
-  (value) => console.log('next', value),
-  (err) => console.log('error', err),
-  () => console.log('Complete!')
-);
+const subscription_1 = observable.subscribe(observer);
+const subscription_2 = observable.subscribe(observer);
 console.log('after');
+
+setTimeout(() => {
+  subscription_1.unsubscribe();
+}, 3000);
+
+setTimeout(() => {
+  subscription_2.unsubscribe();
+}, 8000);
+
+// Learning:
+// Complete is not called during unsubscribe call
+// Complete is called only when the subscriber.complete() is invoked
