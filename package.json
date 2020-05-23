@@ -1,0 +1,21 @@
+{
+  "name": "rxjs-crash-course",
+  "version": "0.0.1",
+  "description": "RxJS Crash Course",
+  "main": "index.js",
+  "scripts": {
+    "dev": "parcel serve index.html",
+    "build": "parcel build index.html"
+  },
+  "keywords": [
+    "RxJS"
+  ],
+  "author": "Hozefa Mangalorewala",
+  "license": "MIT",
+  "dependencies": {
+    "rxjs": "^6.5.5"
+  },
+  "devDependencies": {
+    "parcel-bundler": "^1.12.4"
+  }
+}
