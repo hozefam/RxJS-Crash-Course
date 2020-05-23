@@ -1,37 +1,15 @@
-import { Observable } from 'rxjs';
+import { fromEvent } from 'rxjs';
 
-const observer = {
-  next: (value) => console.log('next', value),
-  error: (err) => console.log('error', err),
-  complete: () => console.log('Complete!'),
-};
+const source$ = fromEvent(document, 'click');
 
-const observable = new Observable((subscriber) => {
-  let count = 0;
-
-  setInterval(() => {
-    subscriber.next(count);
-    count = count + 1;
-  }, 1000);
-
-  return () => {
-    console.log('Clean up called!');
-  };
-});
-
-console.log('before');
-const subscription_1 = observable.subscribe(observer);
-const subscription_2 = observable.subscribe(observer);
-console.log('after');
+const subOne = source$.subscribe(
+  (val) => console.log(val),
+  null,
+  () => console.log('Complete')
+);
+const subTwo = source$.subscribe((val) => console.log(val));
 
 setTimeout(() => {
-  subscription_1.unsubscribe();
+  subOne.unsubscribe();
+  console.log('SubOne is unsubscribed!!!');
 }, 3000);
-
-setTimeout(() => {
-  subscription_2.unsubscribe();
-}, 8000);
-
-// Learning:
-// Complete is not called during unsubscribe call
-// Complete is called only when the subscriber.complete() is invoked
