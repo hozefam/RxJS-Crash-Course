@@ -1,15 +1,11 @@
-import { fromEvent } from 'rxjs';
+import { of } from 'rxjs';
 
-const source$ = fromEvent(document, 'click');
+const observer = {
+  next: (val) => console.log('next', val),
+  error: (err) => console.log('error', err),
+  complete: () => console.log('complete!'),
+};
 
-const subOne = source$.subscribe(
-  (val) => console.log(val),
-  null,
-  () => console.log('Complete')
-);
-const subTwo = source$.subscribe((val) => console.log(val));
+const source$ = of([1], 2, 3, 4, 5);
 
-setTimeout(() => {
-  subOne.unsubscribe();
-  console.log('SubOne is unsubscribed!!!');
-}, 3000);
+source$.subscribe(observer);
