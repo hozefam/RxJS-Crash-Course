@@ -1,4 +1,15 @@
-import { range } from 'rxjs';
+import { from } from 'rxjs';
+
+// function* hello() {
+//   yield 10;
+//   yield 20;
+//   yield 30;
+//   yield 40;
+//   yield 50;
+//   yield 60;
+// }
+
+// const iterator = getData();
 
 const observer = {
   next: (val) => console.log('next', val),
@@ -6,6 +17,6 @@ const observer = {
   complete: () => console.log('complete!'),
 };
 
-const source$ = range(1, 10);
-
-source$.subscribe(observer);
+from([1, 2, 3, 4, 5]).subscribe(console.log);
+from(fetch('https://api.github.com/users/octocat')).subscribe(console.log);
+// from(iterator).subscribe(console.log);
