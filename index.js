@@ -1,4 +1,4 @@
-import { of } from 'rxjs';
+import { range } from 'rxjs';
 
 const observer = {
   next: (val) => console.log('next', val),
@@ -6,6 +6,6 @@ const observer = {
   complete: () => console.log('complete!'),
 };
 
-const source$ = of([1], 2, 3, 4, 5);
+const source$ = range(1, 10);
 
 source$.subscribe(observer);
