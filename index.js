@@ -1,22 +1,26 @@
-import { from } from 'rxjs';
+import { interval } from 'rxjs';
+import { scan, mapTo, filter, tap } from 'rxjs/operators';
 
-// function* hello() {
-//   yield 10;
-//   yield 20;
-//   yield 30;
-//   yield 40;
-//   yield 50;
-//   yield 60;
-// }
+const countdown = document.getElementById('countdown');
+const message = document.getElementById('message');
+const progressbar = document.getElementById('progressbar');
 
-// const iterator = getData();
+console.log(countdown);
 
-const observer = {
-  next: (val) => console.log('next', val),
-  error: (err) => console.log('error', err),
-  complete: () => console.log('complete!'),
-};
-
-from([1, 2, 3, 4, 5]).subscribe(console.log);
-from(fetch('https://api.github.com/users/octocat')).subscribe(console.log);
-// from(iterator).subscribe(console.log);
+const counter$ = interval(1000)
+  .pipe(
+    mapTo(-1),
+    scan((acc, curr) => {
+      return acc + curr;
+    }, 10),
+    filter((val) => val >= 0)
+  )
+  .subscribe((value) => {
+    countdown.innerHTML = value;
+    progressbar.style.width = `${100 - value * 10}%`;
+    progressbar.innerHTML = `${100 - value * 10}%`;
+    if (!value) {
+      message.innerHTML = 'liftOff!';
+      progressbar.style.display = 'hidden';
+    }
+  });
